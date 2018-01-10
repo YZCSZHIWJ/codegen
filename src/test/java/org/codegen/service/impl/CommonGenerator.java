@@ -53,7 +53,7 @@ public class CommonGenerator extends CodeGeneratorManager {
             if (!servicefile.exists()) {//生成文件
                 Map<String, Object> data = new HashMap<String, Object>();
                 data.put("ServiceName", serviceName);
-                save(data, "basemapper.ftl", servicefile);
+                save(data, "baseservice.ftl", servicefile);
                 logger.info(SERVICE_INTERFACE_REFERENCE + ".java 生成成功");
             }
         } catch (Exception e) {
