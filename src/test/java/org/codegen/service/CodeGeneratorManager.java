@@ -3,6 +3,7 @@ package org.codegen.service;
 import com.google.common.base.CaseFormat;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateExceptionHandler;
+import org.codegen.service.impl.CommonGenerator;
 import org.codegen.service.impl.ControllerGenerator;
 import org.codegen.service.impl.ModelAndMapperGenerator;
 import org.codegen.service.impl.ServiceGenerator;
@@ -206,6 +207,7 @@ public class CodeGeneratorManager extends CodeGeneratorConfig {
         new ModelAndMapperGenerator().genCode(tableName, modelName, sign);
         new ServiceGenerator().genCode(tableName, modelName, sign);
         new ControllerGenerator().genCode(tableName, modelName, sign);
+        new CommonGenerator().genCommonMapper().genCommonService().genCommonAbstractService();
     }
 
     /**
@@ -220,6 +222,7 @@ public class CodeGeneratorManager extends CodeGeneratorConfig {
             cfg.setDirectoryForTemplateLoading(new File(TEMPLATE_FILE_PATH));
             cfg.setDefaultEncoding("UTF-8");
             cfg.setTemplateExceptionHandler(TemplateExceptionHandler.IGNORE_HANDLER);
+
         } catch (IOException e) {
             throw new RuntimeException("Freemarker 模板环境初始化异常!", e);
         }
@@ -268,6 +271,7 @@ public class CodeGeneratorManager extends CodeGeneratorConfig {
         SERVICE_PACKAGE = prop.getProperty("service.package");
         SERVICE_IMPL_PACKAGE = prop.getProperty("service.impl.package");
         CONTROLLER_PACKAGE = prop.getProperty("controller.package");
+        DAO_PACKAGE = prop.getProperty("dao.package");
 
         MAPPER_INTERFACE_REFERENCE = prop.getProperty("mapper.interface.reference");
         SERVICE_INTERFACE_REFERENCE = prop.getProperty("service.interface.reference");
@@ -276,10 +280,12 @@ public class CodeGeneratorManager extends CodeGeneratorConfig {
         String servicePackage = prop.getProperty("package.path.service");
         String serviceImplPackage = prop.getProperty("package.path.service.impl");
         String controllerPackage = prop.getProperty("package.path.controller");
+        String daoPackage = prop.getProperty("package.path.dao");
 
         PACKAGE_PATH_SERVICE = "".equals(servicePackage) ? packageConvertPath(SERVICE_PACKAGE) : servicePackage;
         PACKAGE_PATH_SERVICE_IMPL = "".equals(serviceImplPackage) ? packageConvertPath(SERVICE_IMPL_PACKAGE) : serviceImplPackage;
         PACKAGE_PATH_CONTROLLER = "".equals(controllerPackage) ? packageConvertPath(CONTROLLER_PACKAGE) : controllerPackage;
+        PACKAGE_PATH_DAO = "".equals(daoPackage) ? packageConvertPath(DAO_PACKAGE) : daoPackage;
 
         AUTHOR = prop.getProperty("author");
         String dateFormat = "".equals(prop.getProperty("date-format")) ? "yyyy/MM/dd" : prop.getProperty("date-format");

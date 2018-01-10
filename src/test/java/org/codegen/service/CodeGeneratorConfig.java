@@ -32,6 +32,8 @@ public class CodeGeneratorConfig {
     protected static String SERVICE_IMPL_PACKAGE;
     // 项目 Controller 所在包
     protected static String CONTROLLER_PACKAGE;
+    // 项目 dao 所在的包
+    protected static String DAO_PACKAGE;
 
     // 生成的 Service 存放路径
     protected static String PACKAGE_PATH_SERVICE;
@@ -39,6 +41,8 @@ public class CodeGeneratorConfig {
     protected static String PACKAGE_PATH_SERVICE_IMPL;
     // 生成的 Controller 存放路径
     protected static String PACKAGE_PATH_CONTROLLER;
+    // 生成的 Dao 存放的路径
+    protected static String PACKAGE_PATH_DAO;
 
     // MyMapper 插件基础接口的完全限定名
     protected static String MAPPER_INTERFACE_REFERENCE;
