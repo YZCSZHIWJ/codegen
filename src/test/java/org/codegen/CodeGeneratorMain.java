@@ -8,7 +8,7 @@ public class CodeGeneratorMain {
     private static final String MODEL_NAME = "ITest";
 
     private static final String[] TABLES = {
-            "eo_alarm", "eo_cases"
+            "tb_app_page", "tb_area"
     };
 
     /**
