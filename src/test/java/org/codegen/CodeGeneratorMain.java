@@ -3,12 +3,12 @@ package org.codegen;
 import org.codegen.service.CodeGeneratorManager;
 
 public class CodeGeneratorMain {
-    private static final String TABLE = "eo_alarm_push";
+    private static final String TABLE = "eo_device_type";
 
     private static final String MODEL_NAME = "ITest";
 
     private static final String[] TABLES = {
-            "tb_app_page", "tb_area"
+            "eo_alarm_push"
     };
 
     /**
@@ -26,9 +26,9 @@ public class CodeGeneratorMain {
     public static void main(String[] args) {
         CodeGeneratorManager cgm = new CodeGeneratorManager();
 
-        //cgm.genCodeWithSimpleName(TABLE);
+        cgm.genCodeWithSimpleName(TABLE);
 
-		cgm.genCodeWithDetailName(TABLES);
+		//cgm.genCodeWithDetailName(TABLES);
 
 //		cgm.genCodeWithCustomName(TABLE, MODEL_NAME);
     }

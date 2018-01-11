@@ -42,35 +42,6 @@ public class CodeGeneratorManager extends CodeGeneratorConfig {
     }
 
     /**
-     * Mybatis 代码自动生成基本配置
-     * @return
-     */
-    public Context initMybatisGeneratorContext(String sign) {
-        Context context = new Context(ModelType.FLAT);
-        context.setId("Potato");
-        context.setTargetRuntime("MyBatis3Simple");
-        context.addProperty(PropertyRegistry.CONTEXT_BEGINNING_DELIMITER, "`");
-        context.addProperty(PropertyRegistry.CONTEXT_ENDING_DELIMITER, "`");
-
-        JDBCConnectionConfiguration jdbcConnectionConfiguration = new JDBCConnectionConfiguration();
-        jdbcConnectionConfiguration.setConnectionURL(JDBC_URL);
-        jdbcConnectionConfiguration.setUserId(JDBC_USERNAME);
-        jdbcConnectionConfiguration.setPassword(JDBC_PASSWORD);
-        jdbcConnectionConfiguration.setDriverClass(JDBC_DRIVER_CLASS_NAME);
-        context.setJdbcConnectionConfiguration(jdbcConnectionConfiguration);
-
-        SqlMapGeneratorConfiguration sqlMapGeneratorConfiguration = new SqlMapGeneratorConfiguration();
-        sqlMapGeneratorConfiguration.setTargetProject(PROJECT_PATH + RESOURCES_PATH);
-        sqlMapGeneratorConfiguration.setTargetPackage("mapper." + sign);
-        context.setSqlMapGeneratorConfiguration(sqlMapGeneratorConfiguration);
-
-        // 增加 mapper 插件
-        addMapperPlugin(context);
-
-        return context;
-    }
-
-    /**
      * 生成简单名称代码
      * eg:
      * 	genCode("gen_test_demo");  gen_test_demo ==> Demo
@@ -147,7 +118,7 @@ public class CodeGeneratorManager extends CodeGeneratorConfig {
      * @param tableName 表名, eg: gen_test_demo
      * @return 区分字段 eg: test
      */
-    protected String getSign(String tableName) {
+    private String getSign(String tableName) {
         return getTableNameSplit(tableName)[1];
     }
 
@@ -156,7 +127,7 @@ public class CodeGeneratorManager extends CodeGeneratorConfig {
      * @param tableName 表名
      * @return
      */
-    protected String getDefModelName(String tableName) {
+    private String getDefModelName(String tableName) {
         String[] strs = getTableNameSplit(tableName);
         StringBuilder sb = new StringBuilder();
         for (int i = 2; i < strs.length; i++) {
@@ -227,17 +198,6 @@ public class CodeGeneratorManager extends CodeGeneratorConfig {
             throw new RuntimeException("Freemarker 模板环境初始化异常!", e);
         }
         return cfg;
-    }
-
-    /**
-     * 增加 Mapper 插件
-     * @param context
-     */
-    private void addMapperPlugin(Context context) {
-        PluginConfiguration pluginConfiguration = new PluginConfiguration();
-        pluginConfiguration.setConfigurationType("tk.mybatis.mapper.generator.MapperPlugin");
-        pluginConfiguration.addProperty("mappers", MAPPER_INTERFACE_REFERENCE);
-        context.addPluginConfiguration(pluginConfiguration);
     }
 
     /**

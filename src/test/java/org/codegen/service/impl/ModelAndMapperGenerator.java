@@ -43,9 +43,9 @@ public class ModelAndMapperGenerator extends CodeGeneratorManager implements Cod
             modelName = tableNameConvertUpperCamel(tableName);
         }
 
-        logger.info(modelName, "{}.java 生成成功!");
-        logger.info(modelName, "{}Mapper.java 生成成功!");
-        logger.info(modelName, "{}Mapper.xml 生成成功!");
+        logger.info("{}.java 生成成功!", modelName);
+        logger.info("{}Mapper.java 生成成功!", modelName);
+        logger.info("{}Mapper.xml 生成成功!", modelName);
     }
 
     /**
@@ -57,12 +57,39 @@ public class ModelAndMapperGenerator extends CodeGeneratorManager implements Cod
     private Context initConfig(String tableName, String modelName, String sign) {
         Context context = null;
         try {
-            context = initMybatisGeneratorContext(sign);
+            context = new Context(ModelType.FLAT);
+            context.setId("Potato");
+            context.setTargetRuntime("MyBatis3Simple");
+            context.addProperty(PropertyRegistry.CONTEXT_BEGINNING_DELIMITER, "`");
+            context.addProperty(PropertyRegistry.CONTEXT_ENDING_DELIMITER, "`");
+
+            // 数据库连接配置
+            JDBCConnectionConfiguration jdbcConnectionConfiguration = new JDBCConnectionConfiguration();
+            jdbcConnectionConfiguration.setConnectionURL(JDBC_URL);
+            jdbcConnectionConfiguration.setUserId(JDBC_USERNAME);
+            jdbcConnectionConfiguration.setPassword(JDBC_PASSWORD);
+            jdbcConnectionConfiguration.setDriverClass(JDBC_DRIVER_CLASS_NAME);
+            context.setJdbcConnectionConfiguration(jdbcConnectionConfiguration);
+
+            // sql生成配置
+            SqlMapGeneratorConfiguration sqlMapGeneratorConfiguration = new SqlMapGeneratorConfiguration();
+            sqlMapGeneratorConfiguration.setTargetProject(PROJECT_PATH + RESOURCES_PATH);
+            sqlMapGeneratorConfiguration.setTargetPackage("mapper." + sign);
+            context.setSqlMapGeneratorConfiguration(sqlMapGeneratorConfiguration);
+
+            // Mapper 插件配置
+            PluginConfiguration pluginConfiguration = new PluginConfiguration();
+            pluginConfiguration.setConfigurationType("tk.mybatis.mapper.generator.MapperPlugin");
+            pluginConfiguration.addProperty("mappers", MAPPER_INTERFACE_REFERENCE);
+            context.addPluginConfiguration(pluginConfiguration);
+
+            // java model生成配置
             JavaModelGeneratorConfiguration javaModelGeneratorConfiguration = new JavaModelGeneratorConfiguration();
             javaModelGeneratorConfiguration.setTargetProject(PROJECT_PATH + JAVA_PATH);
             javaModelGeneratorConfiguration.setTargetPackage(MODEL_PACKAGE + "." + sign);
             context.setJavaModelGeneratorConfiguration(javaModelGeneratorConfiguration);
 
+            // dao 生成配置
             JavaClientGeneratorConfiguration javaClientGeneratorConfiguration = new JavaClientGeneratorConfiguration();
             javaClientGeneratorConfiguration.setTargetProject(PROJECT_PATH + JAVA_PATH);
             javaClientGeneratorConfiguration.setTargetPackage(MAPPER_PACKAGE + "." + sign);
