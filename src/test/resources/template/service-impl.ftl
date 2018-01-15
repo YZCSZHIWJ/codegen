@@ -1,8 +1,15 @@
+<#if sign?? && sign != ''>
 package ${basePackage}.service.impl.${sign};
-
 import ${basePackage}.dao.mapper.${sign}.${modelNameUpperCamel}Mapper;
 import ${basePackage}.model.${sign}.${modelNameUpperCamel};
 import ${basePackage}.service.${sign}.${modelNameUpperCamel}Service;
+<#else>
+package ${basePackage}.service.impl;
+import ${basePackage}.dao.mapper.${modelNameUpperCamel}Mapper;
+import ${basePackage}.model.${modelNameUpperCamel};
+import ${basePackage}.service.${modelNameUpperCamel}Service;
+</#if>
+
 import ${basePackage}.service.AbstractService;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;

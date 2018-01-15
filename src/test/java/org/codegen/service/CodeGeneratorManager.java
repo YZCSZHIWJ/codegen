@@ -52,6 +52,20 @@ public class CodeGeneratorManager extends CodeGeneratorConfig {
     }
 
     /**
+     * 不划分子模块生成代码.
+     * @author wj
+     * @param tableNames
+     */
+    public void genCodeNoModulize(String ...tableNames) {
+        for (String tableName : tableNames) {
+            new ModelAndMapperGenerator().genCode(tableName, null, null);
+            new ServiceGenerator().genCode(tableName, null, null);
+            new ControllerGenerator().genCode(tableName, null, null);
+            new CommonGenerator().genCommonMapper().genCommonService().genCommonAbstractService();
+        }
+    }
+
+    /**
      * 生成具体名称代码
      * eg:
      * 	genCode("gen_test_demo");  gen_test_demo ==> GenTestDemo

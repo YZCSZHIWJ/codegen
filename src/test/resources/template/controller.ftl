@@ -1,6 +1,12 @@
+<#if sign??>
 package ${basePackage}.controller.${sign};
 import ${basePackage}.model.${sign}.${modelNameUpperCamel};
 import ${basePackage}.service.${sign}.${modelNameUpperCamel}Service;
+<#else>
+package ${basePackage}.controller;
+import ${basePackage}.model.${modelNameUpperCamel};
+import ${basePackage}.service.${modelNameUpperCamel}Service;
+</#if>
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.RequestMapping;

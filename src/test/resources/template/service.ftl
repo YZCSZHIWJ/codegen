@@ -1,5 +1,11 @@
+<#if sign?? && sign != ''>
 package ${basePackage}.service.${sign};
 import ${basePackage}.model.${sign}.${modelNameUpperCamel};
+<#else>
+package ${basePackage}.service;
+import ${basePackage}.model.${modelNameUpperCamel};
+</#if>
+
 import ${basePackage}.service.Service;
 
 /**

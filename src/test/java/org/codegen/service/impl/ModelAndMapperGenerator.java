@@ -74,7 +74,11 @@ public class ModelAndMapperGenerator extends CodeGeneratorManager implements Cod
             // sql生成配置
             SqlMapGeneratorConfiguration sqlMapGeneratorConfiguration = new SqlMapGeneratorConfiguration();
             sqlMapGeneratorConfiguration.setTargetProject(PROJECT_PATH + RESOURCES_PATH);
-            sqlMapGeneratorConfiguration.setTargetPackage("mapper." + sign);
+            if (StringUtils.isNullOrEmpty(sign)) {
+                sqlMapGeneratorConfiguration.setTargetPackage("mapper");
+            } else {
+                sqlMapGeneratorConfiguration.setTargetPackage("mapper." + sign);
+            }
             context.setSqlMapGeneratorConfiguration(sqlMapGeneratorConfiguration);
 
             // Mapper 插件配置
@@ -86,13 +90,21 @@ public class ModelAndMapperGenerator extends CodeGeneratorManager implements Cod
             // java model生成配置
             JavaModelGeneratorConfiguration javaModelGeneratorConfiguration = new JavaModelGeneratorConfiguration();
             javaModelGeneratorConfiguration.setTargetProject(PROJECT_PATH + JAVA_PATH);
-            javaModelGeneratorConfiguration.setTargetPackage(MODEL_PACKAGE + "." + sign);
+            if (StringUtils.isNullOrEmpty(sign)) {
+                javaModelGeneratorConfiguration.setTargetPackage(MODEL_PACKAGE);
+            } else {
+                javaModelGeneratorConfiguration.setTargetPackage(MODEL_PACKAGE + "." + sign);
+            }
             context.setJavaModelGeneratorConfiguration(javaModelGeneratorConfiguration);
 
             // dao 生成配置
             JavaClientGeneratorConfiguration javaClientGeneratorConfiguration = new JavaClientGeneratorConfiguration();
             javaClientGeneratorConfiguration.setTargetProject(PROJECT_PATH + JAVA_PATH);
-            javaClientGeneratorConfiguration.setTargetPackage(MAPPER_PACKAGE + "." + sign);
+            if (StringUtils.isNullOrEmpty(sign)) {
+                javaClientGeneratorConfiguration.setTargetPackage(MAPPER_PACKAGE);
+            } else {
+                javaClientGeneratorConfiguration.setTargetPackage(MAPPER_PACKAGE + "." + sign);
+            }
             javaClientGeneratorConfiguration.setConfigurationType("XMLMAPPER");
             context.setJavaClientGeneratorConfiguration(javaClientGeneratorConfiguration);
 
